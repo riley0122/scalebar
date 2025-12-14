@@ -1,0 +1,17 @@
+CMAKE_MINIMUM_REQUIRED(VERSION 4.2)
+
+set(CMAKE_CXX_COMPILER "g++")
+set(CMAKE_C_COMPILER "gcc")
+set(CMAKE_CXX_STANDARD 20)
+
+project(Scalebar)
+
+file(GLOB_RECURSE sources src/*.cpp src/*.hpp)
+file(GLOB_RECURSE sources_test test/*.cpp test/*.hpp)
+
+add_executable(scalebar_test ${sources_test})
+add_test(NAME scalebar_test COMMAND scalebar_test)
+
+add_custom_target(test COMMAND scalebar_test DEPENDS scalebar_test)
+
+add_executable(scalebar ${sources})
