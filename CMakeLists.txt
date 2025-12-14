@@ -18,7 +18,7 @@ file(GLOB_RECURSE sources_test test/*.cpp test/*.hpp)
 add_executable(scalebar_test ${sources_test})
 add_test(NAME scalebar_test COMMAND scalebar_test)
 
-add_custom_target(test COMMAND scalebar_test DEPENDS scalebar_test tags)
+add_custom_target(test COMMAND scalebar_test DEPENDS scalebar_test)
 
 # MAIN
 include(./CMakeRC.cmake)
@@ -26,12 +26,15 @@ include(./CMakeRC.cmake)
 add_executable(scalebar ${sources})
 
 # Tags
-file(REMOVE_RECURSE tags)
-add_custom_target(tags COMMAND npx --yes apriltag-bundler ${APRILTAG_FAMILY})
-add_dependencies(scalebar tags)
-add_dependencies(scalebar_test tags)
+if(WIN32)
+    execute_process(COMMAND cmd /c "npx --yes apriltag-bundler 25h9")
+elseif(UNIX)
+    execute_process(COMMAND ${CMAKE_COMMAND} -E env bash -c "npx --yes apriltag-bundler 25h9")
+else()
+    message(FATAL_ERROR Platform not supported.)
+endif()
 file(GLOB_RECURSE tags target/tags/*.png)
-cmrc_add_resource_library(tag-resources ALIAS tags::rc NAMESPACE tags ${tags})
+cmrc_add_resource_library(tag-resources ALIAS tags::rc NAMESPACE tags WHENCE target/tags PREFIX tags ${tags})
 
 target_link_libraries(scalebar PRIVATE tags::rc)
 target_link_libraries(scalebar_test PRIVATE tags::rc)
