@@ -1,4 +1,5 @@
-#include "test_lib.hpp"
+#include "test_resources.hpp"
+
 #include <cmrc/cmrc.hpp>
 #include <string>
 #include <iostream>
@@ -32,16 +33,4 @@ bool test_tag_doesnt_exists()
     std::string path = "tags/not-a-real-tag.png";
     
     return !fs.exists(path);
-}
-
-int main() {
-    return run_tests({
-        test_access_fs(),
-        test_tag_exists(),
-        test_tag_doesnt_exists()
-    }, {
-        "Obtaining a handle to the embedded fs.",
-        "Checks if a proper tag exists.",
-        "Checks if an inproper tag doesnt exist."
-    });
 }
