@@ -26,7 +26,6 @@ include(./CMakeRC.cmake)
 add_executable(scalebar ${sources})
 
 # Tags
-
 file(REMOVE_RECURSE tags)
 add_custom_target(tags COMMAND npx --yes apriltag-bundler ${APRILTAG_FAMILY})
 add_dependencies(scalebar tags)
