@@ -20,7 +20,7 @@ jobs:
 
     - name: Build
       working-directory: ${{github.workspace}}/target
-      run: cmake ..
+      run: cmake .. -DSDL_UNIX_CONSOLE_BUILD=ON
 
     - name: Test
       working-directory: ${{github.workspace}}/target
