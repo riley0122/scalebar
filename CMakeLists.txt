@@ -21,11 +21,24 @@ add_test(NAME scalebar_test COMMAND scalebar_test)
 add_custom_target(test COMMAND scalebar_test DEPENDS scalebar_test)
 
 # MAIN
-include(./CMakeRC.cmake)
+if(NOT EXISTS ${CMAKE_CURRENT_SOURCE_DIR}/vendored/SDL)
+if(WIN32)
+    execute_process(COMMAND cmd /c "git clone https://github.com/libsdl-org/SDL.git ../vendored/SDL")
+elseif(UNIX)
+    execute_process(COMMAND ${CMAKE_COMMAND} -E env bash -c "git clone https://github.com/libsdl-org/SDL.git ../vendored/SDL")
+else()
+    message(FATAL_ERROR Platform not supported.)
+endif()
+endif()
+add_subdirectory(vendored/SDL EXCLUDE_FROM_ALL)
 
 add_executable(scalebar ${sources})
+target_link_libraries(scalebar PRIVATE SDL3::SDL3)
+target_link_libraries(scalebar_test PRIVATE SDL3::SDL3)
 
 # Tags
+include(./CMakeRC.cmake)
+
 if(WIN32)
     execute_process(COMMAND cmd /c "npx --yes apriltag-bundler 25h9")
 elseif(UNIX)
