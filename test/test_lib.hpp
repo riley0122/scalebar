@@ -4,6 +4,7 @@
 
 int run_tests(std::vector<bool> tests, std::vector<std::string> testNames)
 {
+    int pass_count = 0;
     bool failed = false;
     for (long unsigned int i = 0; i < tests.size(); i++)
     {
@@ -15,9 +16,11 @@ int run_tests(std::vector<bool> tests, std::vector<std::string> testNames)
         else
         {
             std::cout << "\x1b[32;49;1m[PASSED]\x1b[0m test: " << testNames[i] << std::endl;
+            pass_count += 1;
         }
     }
 
+    std::cout << "Passed " << pass_count << "/" << tests.size() << " tests." << std::endl;
     if (failed)
     {
         return 1;
