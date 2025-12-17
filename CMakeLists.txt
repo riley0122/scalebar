@@ -34,6 +34,7 @@ add_subdirectory(vendored/SDL EXCLUDE_FROM_ALL)
 
 add_executable(scalebar ${sources})
 target_link_libraries(scalebar PRIVATE SDL3::SDL3)
+target_link_libraries(scalebar_test PRIVATE SDL3::SDL3)
 
 # Tags
 include(./CMakeRC.cmake)
